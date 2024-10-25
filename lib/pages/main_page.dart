@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:golf_app/components/costum_navigation_item.dart';
+import 'package:golf_app/pages/Scores.dart';
 import 'package:golf_app/pages/home_page.dart';
 import 'package:golf_app/pages/porfile_page.dart';
+import 'package:golf_app/widgets/popupplay.dart';
+import 'package:golf_app/widgets/side_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
 class MainPage extends StatefulWidget {
@@ -13,29 +16,35 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   Menus currentIndex = Menus.home;
+   bool _isDrawerOpen = false;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-      
+      drawer: Sidebar(),
+      onDrawerChanged: (isOpen) {
+        setState(() {
+          _isDrawerOpen = isOpen; // Cambia el estado según el estado del Drawer
+        });
+      },
+      extendBody: true,
       body: pages[currentIndex.index],
-      bottomNavigationBar: Mybottomnavigation( 
-        currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },),
+      bottomNavigationBar:_isDrawerOpen
+          ? null // Oculta el BottomNavigationBar cuando el Drawer está abierto
+          : Mybottomnavigation( 
+          currentIndex: currentIndex,
+          onTap: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+          },),
      );
   }
 
   final pages = [
     HomePage(),
-    Center(
-      child: Text('Stats'),
-    ),
-    Center(
-      child: Text('Play'),
-    ),
+    ScoresGroupPage(),
+    PopupPlay(),
     Center(
       child: Text('Actividad'),
     ),

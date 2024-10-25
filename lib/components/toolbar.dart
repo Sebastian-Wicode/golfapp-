@@ -12,8 +12,11 @@ class Toolbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         backgroundColor: AppColors.background,
         centerTitle: false,
-        title: Text(title,
-        style: AppText.header1,),
+        title: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(title,
+          style: AppText.header1,),
+        ),
         actions: actions
        );
   }
